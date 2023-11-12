@@ -1,3 +1,4 @@
+pub mod closures;
 pub mod shows;
 
 pub use shows::{Bar, Foo, Status};
