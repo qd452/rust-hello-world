@@ -1,4 +1,6 @@
-use rust_hello_world::{Foo, Show, Status};
+use std::vec;
+
+use rust_hello_world::{Bar, Foo, Location, Show, ShowLoc, Status};
 
 // define a struct for a Order book, which contains a list of price levels, each price level contains a price and a size
 #[derive(Debug)]
@@ -11,8 +13,56 @@ struct OrderBook {
     price_levels: Vec<PriceLevel>,
 }
 
+trait QuackTrait {
+    fn quack(&self);
+}
+
+struct Duck();
+
+impl QuackTrait for Duck {
+    fn quack(&self) {
+        println!("Duck quack");
+    }
+}
+
+/* Quack generic */
+fn quack<Q>(q: &Q)
+where
+    Q: QuackTrait,
+{
+    q.quack();
+}
+
+fn quack_ref(q: &dyn QuackTrait) {
+    q.quack();
+}
+
+fn quack_everyone<I>(iter: I)
+where
+    I: IntoIterator,
+    I::Item: QuackTrait,
+{
+    for i in iter {
+        i.quack();
+    }
+}
+
 fn main() {
     use Status::Open;
+
+    let d = Duck();
+    d.quack();
+    quack_ref(&d);
+    quack(&d); // quack(&d) is equivalent to quack_ref(&d)
+
+    dbg!(1, 2, 3);
+    let x = 1;
+    let y = 2;
+    dbg!(x + y);
+
+    println!("quack_everyone");
+    let ducks = vec![Duck(), Duck(), Duck()];
+    quack_everyone(ducks);
 
     let status = Status::Open;
     let foo = Foo(5);
@@ -34,9 +84,30 @@ fn main() {
         Status::Filled as i32,
         Status::Expired as i32
     );
+
+    // oop
+    println!("");
+    let b = Bar::new("bar", "SG");
+    // dbg!(b); - value moved here, error E0382  borrow of moved value: `b`
+
+    dbg!(b.show());
+    dbg!(b.location());
+
+    let sl: &Bar = &b;
+    dbg!(sl.show());
+    dbg!(sl.location());
+
+    fn show_all(r: &dyn ShowLoc) {
+        dbg!(r.show(), r.location());
+    }
+
+    let b2 = Bar::new("bar2", "JP");
+    show_all(&b2);
+
+    // very very first rust program
+    println!("");
     println!("Hello, world!");
     println!("I'm a Rustacean!");
-    // generate a random number
     let x: i32 = 5;
     let y: i32 = 10;
     println!("x = {} and y = {}", x, y);
