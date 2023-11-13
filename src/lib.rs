@@ -1,6 +1,6 @@
 pub mod closures;
 pub mod shows;
-
+pub mod slices;
 pub use shows::{Bar, Foo, Status};
 
 pub trait Show {
