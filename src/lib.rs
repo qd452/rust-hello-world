@@ -4,6 +4,7 @@ pub mod slices;
 pub use shows::{Bar, Foo, Status};
 pub mod common_collections;
 pub mod generics;
+pub mod lifetime;
 
 pub trait Show {
     fn show(&self) -> String;

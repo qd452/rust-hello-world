@@ -68,3 +68,58 @@ The largest function will return a reference to a value of the same type `T`.
    but also ensure you understand the practical application of trait bounds in Rust. The
    key is to iterate through the process, addressing any gaps in your understanding until
    you can explain the concept clearly and confidently.
+
+## Borrowing
+
+Rule
+
+- At any given time, you can have either (but not both) one mutable reference or any number of immutable references.
+- References must always be valid.
+
+## Deref
+
+use \*y to follow the reference to the value it’s pointing to (hence dereference) so the compiler can compare the actual value.
+
+\* - dereference operator
+& - reference operator
+
+## a.clone vs Rc::clone(&a) in rust
+
+In Rust, `a.clone()` and `Rc::clone(&a)` may seem similar at first, but they have different implications and use cases.
+
+1. **`a.clone()`**
+
+   The `clone` method is part of the `Clone` trait in Rust. When you call `a.clone()`, you are invoking the `clone` method on the value `a`. This method is used to create a deep copy of the value. It's important to note that not all types implement the `Clone` trait by default. If a type does not implement `Clone`, you won't be able to use `clone` directly unless you implement `Clone` for that type yourself.
+
+   Example:
+
+   ```rust
+   #[derive(Clone)]
+   struct MyStruct {
+       // fields...
+   }
+
+   let a = MyStruct { /* initialize fields */ };
+   let b = a.clone();  // Creates a deep copy of 'a'.
+   ```
+
+2. **`Rc::clone(&a)`**
+
+   The `Rc` type in Rust is a reference-counted smart pointer, and it stands for "reference counting." It allows multiple ownership of data by keeping track of how many references exist to a particular piece of data. The `Rc::clone` method is used to increase the reference count of an `Rc` instance.
+
+   Example:
+
+   ```rust
+   use std::rc::Rc;
+
+   struct MyStruct {
+       // fields...
+   }
+
+   let a = Rc::new(MyStruct { /* initialize fields */ });
+   let b = Rc::clone(&a);  // Increases the reference count of 'a'.
+   ```
+
+   In this case, `Rc::clone` does not create a deep copy of the data but instead increases the reference count. Both `a` and `b` now point to the same piece of data, and the reference count has been incremented. When the last reference to the data is dropped, the data is deallocated.
+
+In summary, `a.clone()` is used to create a deep copy of a value, while `Rc::clone(&a)` is used to increase the reference count of a reference-counted smart pointer (`Rc`). The choice between them depends on whether you need a completely independent copy of the data or if you want to share ownership through reference counting.
