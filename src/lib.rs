@@ -2,6 +2,7 @@ pub mod closures;
 pub mod shows;
 pub mod slices;
 pub use shows::{Bar, Foo, Status};
+pub mod batch_futures;
 pub mod common_collections;
 pub mod generics;
 pub mod lifetime;

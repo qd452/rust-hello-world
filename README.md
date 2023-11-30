@@ -32,6 +32,45 @@ The largest function will return a reference to a value of the same type `T`.
 
 ### Traits
 
+#### Trait Bounds
+
+in the [code](src/generics/largest.rs)
+
+```rust
+fn largest<T: PartialOrd + Copy>(list: &[T]) -> T {
+    let mut largest = list[0];
+
+    for &item in list.iter() {
+        if item > largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+```
+
+or to use `where` clause
+
+```rust
+fn largest<T>(list: &[T]) -> T
+where
+    T: PartialOrd + Copy,
+{
+    let mut largest = list[0];
+
+    for &item in list.iter() {
+        if item > largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+```
+
+#### Trait Feynman Technique
+
 **Feynman Technique to learning about trait bounds in Rust.**
 
 1. **Choose the Concept:**
@@ -69,7 +108,7 @@ The largest function will return a reference to a value of the same type `T`.
    key is to iterate through the process, addressing any gaps in your understanding until
    you can explain the concept clearly and confidently.
 
-## Borrowing
+## Borrowing (Ref)
 
 Rule
 
@@ -80,8 +119,8 @@ Rule
 
 use \*y to follow the reference to the value it’s pointing to (hence dereference) so the compiler can compare the actual value.
 
-\* - dereference operator
-& - reference operator
+`*` - dereference operator
+`&` - reference operator (**they allow you to refer to some value without taking ownership of it**), action of creating a reference is called _borrowing_
 
 ## a.clone vs Rc::clone(&a) in rust
 
@@ -123,3 +162,26 @@ In Rust, `a.clone()` and `Rc::clone(&a)` may seem similar at first, but they hav
    In this case, `Rc::clone` does not create a deep copy of the data but instead increases the reference count. Both `a` and `b` now point to the same piece of data, and the reference count has been incremented. When the last reference to the data is dropped, the data is deallocated.
 
 In summary, `a.clone()` is used to create a deep copy of a value, while `Rc::clone(&a)` is used to increase the reference count of a reference-counted smart pointer (`Rc`). The choice between them depends on whether you need a completely independent copy of the data or if you want to share ownership through reference counting.
+
+## Supertraits
+
+https://doc.rust-lang.org/reference/items/traits.html#supertraits
+
+```rust
+#[async_trait::async_trait]
+pub trait PoolFetching: Send + Sync {
+    async fn fetch(&self, token_pairs: HashSet<TokenPair>, at_block: Block) -> Result<Vec<Pool>>;
+}
+```
+
+send+sync is supertrait
+
+- The `Send` trait indicates that a value of this type is safe to send from one thread to another.
+- The `Sync` trait indicates that a value of this type is safe to share between multiple threads.
+
+detailed explanation: [extensible-concurrency-with-the-sync-and-send-traits](https://doc.rust-lang.org/book/ch16-04-extensible-concurrency-sync-and-send.html)
+
+```rust
+trait Shape { fn area(&self) -> f64; }
+trait Circle : Shape { fn radius(&self) -> f64; }
+```
