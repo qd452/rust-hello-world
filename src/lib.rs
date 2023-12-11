@@ -6,6 +6,7 @@ pub mod batch_futures;
 pub mod common_collections;
 pub mod generics;
 pub mod lifetime;
+pub mod tokio_stuff;
 
 pub trait Show {
     fn show(&self) -> String;

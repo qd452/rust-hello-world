@@ -185,3 +185,13 @@ detailed explanation: [extensible-concurrency-with-the-sync-and-send-traits](htt
 trait Shape { fn area(&self) -> f64; }
 trait Circle : Shape { fn radius(&self) -> f64; }
 ```
+
+## Tokio
+
+```shell
+# client
+cr --example client
+
+# server
+cr --bin mini-redis-server
+```
