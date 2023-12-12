@@ -193,5 +193,5 @@ trait Circle : Shape { fn radius(&self) -> f64; }
 cr --example client
 
 # server
-cr --bin mini-redis-server
+cr --bin server
 ```
