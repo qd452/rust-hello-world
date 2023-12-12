@@ -194,4 +194,8 @@ cr --example client
 
 # server
 cr --bin server
+
+
+# tokio metrics
+cr --example metrics
 ```
