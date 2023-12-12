@@ -165,7 +165,7 @@ In summary, `a.clone()` is used to create a deep copy of a value, while `Rc::clo
 
 ## Supertraits
 
-https://doc.rust-lang.org/reference/items/traits.html#supertraits
+[super traits link](https://doc.rust-lang.org/reference/items/traits.html#supertraits)
 
 ```rust
 #[async_trait::async_trait]
