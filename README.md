@@ -196,6 +196,9 @@ cr --example client
 cr --bin server
 
 
-# tokio metrics
+# tokio metrics ?? what is this for? I cannot remember
 cr --example metrics
+
+
+cr --example channels
 ```

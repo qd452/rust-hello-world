@@ -11,8 +11,9 @@ type Db = Arc<Mutex<HashMap<String, Bytes>>>;
 #[tokio::main]
 async fn main() {
     // Bind the listener to the address
-    let listener = TcpListener::bind("127.0.0.1:26379").await.unwrap();
-    println!("Server started");
+    let url: &str = "127.0.0.1:26379";
+    let listener = TcpListener::bind(&url).await.unwrap();
+    println!("Server started at {}", url);
     println!("Listening");
 
     // HashMap<String, Vec<u8>>
